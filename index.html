@@ -214,6 +214,17 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 /* ── IMPORT ZONE ── */
 .import-zone { border: 2px dashed var(--border); border-radius: 11px; padding: 18px; text-align: center; color: var(--sub); font-size: 13px; cursor: pointer; margin-bottom: 10px; -webkit-appearance: none; }
 
+/* ── NHÓM HKD ── */
+.nhom-card{background:linear-gradient(135deg,#1e3a5f,#1e40af);color:#fff;border-radius:var(--radius);padding:16px;margin-bottom:12px;box-shadow:0 4px 16px rgba(30,64,175,.3)}
+.nhom-badge{display:inline-block;background:#fff;color:#1e40af;font-size:13px;font-weight:900;padding:4px 12px;border-radius:20px;margin-bottom:8px;letter-spacing:.5px}
+.nhom-info .nhom-dt{font-size:12px;opacity:.85;margin-bottom:12px;font-weight:600}
+.nhom-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.nhom-item{background:rgba(255,255,255,.12);border-radius:10px;padding:10px 12px}
+.nhom-label{display:block;font-size:10px;font-weight:700;opacity:.75;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.nhom-val{font-size:12px;font-weight:700;line-height:1.5}
+.nhom-val.green{color:#86efac}
+.nhom-val.orange{color:#fdba74}
+.nhom-val.blue{color:#93c5fd}
 /* ── TAX ── */
 .tax-hd { background: linear-gradient(135deg,#1e3a5f,#2563eb); color:#fff; border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
 .tax-hd h2 { font-size: 15px; font-weight: 800; margin-bottom: 3px; }
@@ -269,6 +280,38 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 /* ── SPACER ── */
 .sp { height: 20px; }
+
+/* ── PRINT OVERLAY ── */
+#printOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#fff;z-index:200;overflow-y:auto;-webkit-overflow-scrolling:touch}
+#printOverlay.on{display:block}
+#printBar{background:#16a34a;padding:12px 16px;display:flex;gap:10px;align-items:center;position:sticky;top:0;z-index:10}
+#printBar button{padding:10px 20px;border:none;border-radius:9px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;-webkit-appearance:none}
+.pb-print{background:#fff;color:#16a34a}
+.pb-close{background:rgba(255,255,255,.2);color:#fff}
+#printContent{padding:15mm 20mm 15mm 25mm;font-family:"Times New Roman",serif;font-size:12pt;color:#000;max-width:210mm;margin:0 auto}
+#printContent .ph{display:flex;justify-content:space-between;margin-bottom:16pt}
+#printContent .pl p{font-size:11pt;line-height:1.9}
+#printContent .pr{text-align:right;font-size:10pt;line-height:1.7}
+#printContent .mau{color:#C8102E;font-weight:bold;font-size:11pt}
+#printContent .tit{text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;margin:8pt 0 4pt}
+#printContent .sub{text-align:center;font-size:11pt;margin:2pt 0}
+#printContent .dvt{text-align:right;font-size:10pt;margin:8pt 0 2pt}
+#printContent table{width:100%;border-collapse:collapse;margin-top:6pt}
+#printContent th,#printContent td{border:1px solid black;padding:4pt 5pt;font-size:11pt}
+#printContent th{text-align:center;font-weight:bold}
+#printContent .cc{text-align:center}
+#printContent .cr{text-align:right}
+#printContent .tot{font-weight:bold}
+#printContent .foot{text-align:right;margin-top:18pt;font-size:11pt;line-height:2}
+@media print{#app,#fab,.toast{display:none!important}#printOverlay{display:block!important;position:static!important}#printBar{display:none!important}#printContent{padding:0!important}}
+/* ── REMIND STRIP ── */
+.remind-strip{display:flex;gap:10px;margin-bottom:12px}
+.remind-box{flex:1;border-radius:12px;padding:13px 12px;display:flex;align-items:flex-start;gap:10px;box-shadow:var(--shadow)}
+.remind-box.r1{background:linear-gradient(135deg,#fff7ed,#ffedd5);border-left:4px solid #f59e0b}
+.remind-box.r2{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-left:4px solid #3b82f6}
+.r-icon{font-size:22px;flex-shrink:0}
+.r-title{font-size:12px;font-weight:800;color:var(--dark);margin-bottom:4px}
+.r-desc{font-size:11px;color:var(--sub);line-height:1.5}
 </style>
 </head>
 <body>
@@ -314,15 +357,41 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
     <!-- TAB: LỊCH THUẾ -->
     <div class="tab" id="tab-tax">
+      <!-- Bảng phân loại HKD Nhóm 1 -->
+      <div class="nhom-card">
+        <div class="nhom-badge">NHÓM 1</div>
+        <div class="nhom-info">
+          <div class="nhom-dt">Doanh thu ≤ 1 tỷ/năm · Quy mô: Nhỏ</div>
+          <div class="nhom-grid">
+            <div class="nhom-item"><span class="nhom-label">Thuế</span><span class="nhom-val green">GTGT: Miễn<br>TNCN: Miễn</span></div>
+            <div class="nhom-item"><span class="nhom-label">Sổ sách</span><span class="nhom-val">S1a-HKD<br>Ghi chép đơn giản</span></div>
+            <div class="nhom-item"><span class="nhom-label">Hóa đơn</span><span class="nhom-val orange">Không bắt buộc</span></div>
+            <div class="nhom-item"><span class="nhom-label">Kê khai</span><span class="nhom-val blue" id="nhomKeKhai">1 lần/năm<br>Hạn: 31/1</span></div>
+          </div>
+        </div>
+      </div>
       <div class="tax-hd">
-        <h2>📅 Lịch kê khai thuế HKD</h2>
-        <p id="taxMethodLbl">Kê khai hàng tháng – hạn trước ngày 20</p>
+        <h2>📅 Lịch nộp tờ khai Nhóm 1</h2>
+        <p id="taxMethodLbl">HKD đã hoạt động – kê khai 1 lần/năm, hạn 31/1</p>
       </div>
-      <div class="mrow">
-        <select class="fi" id="taxMonthSel"></select>
-        <button onclick="renderTax()">🔄</button>
-      </div>
+
       <div id="taxDeadlines"></div>
+      <div class="remind-strip" id="remindStrip">
+        <div class="remind-box r1" id="remind31_7" style="display:none">
+          <div class="r-icon">📅</div>
+          <div class="r-body">
+            <div class="r-title">Hạn 31/7 hàng năm</div>
+            <div class="r-desc">Kê khai DT 6 tháng đầu năm<br>(01/01 – 30/06)</div>
+          </div>
+        </div>
+        <div class="remind-box r2" id="remind31_1">
+          <div class="r-icon">📅</div>
+          <div class="r-body">
+            <div class="r-title">Hạn 31/1 năm sau</div>
+            <div class="r-desc">Kê khai DT cả năm<br>(01/01 – 31/12)</div>
+          </div>
+        </div>
+      </div>
       <div class="card">
         <div class="card-t">📋 Mẫu kê khai gợi ý</div>
         <div class="fm-item">
@@ -352,17 +421,19 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     <div class="tab" id="tab-exp">
       <div class="card" style="text-align:center">
         <div style="font-size:42px;margin-bottom:8px">🖨️</div>
-        <div style="font-size:15px;font-weight:800;margin-bottom:5px">In trực tiếp</div>
-        <p style="font-size:12px;color:var(--sub);margin-bottom:14px;line-height:1.5">Mở trang in mẫu S1a-HKD chuẩn A4</p>
+        <div style="font-size:15px;font-weight:800;margin-bottom:5px">In mẫu S1a-HKD</div>
+        <p style="font-size:12px;color:var(--sub);margin-bottom:14px;line-height:1.5">Tạo trang in chuẩn A4 ngay trong trình duyệt</p>
         <div class="fg"><label class="fl">Chọn tháng</label><select class="fi" id="selPrint"></select></div>
-        <button class="btn btn-r" onclick="doPrint()">🖨️ Mở trang in</button>
+        <button class="btn btn-r" onclick="doPrint()">🖨️ Xem & In</button>
       </div>
-      <div class="card" style="text-align:center">
-        <div style="font-size:42px;margin-bottom:8px">📄</div>
-        <div style="font-size:15px;font-weight:800;margin-bottom:5px">Tải file Word (.doc)</div>
-        <p style="font-size:12px;color:var(--sub);margin-bottom:14px;line-height:1.5">Xuất file Word theo mẫu S1a-HKD</p>
-        <div class="fg"><label class="fl">Chọn tháng</label><select class="fi" id="selWord"></select></div>
-        <button class="btn btn-b" onclick="doWord()">⬇️ Tải file Word</button>
+      <div class="card">
+        <div class="card-t">💡 Hướng dẫn in trên iPhone</div>
+        <p style="font-size:12.5px;color:var(--sub);line-height:1.8">
+          1. Nhấn <strong style="color:var(--red)">Xem & In</strong><br>
+          2. Nhấn nút <strong>🖨️ In ngay</strong><br>
+          3. Chọn máy in hoặc <strong>Lưu PDF</strong><br>
+          4. Nhấn <strong>✕ Đóng</strong> để quay lại
+        </p>
       </div>
       <div class="sp"></div>
     </div>
@@ -378,8 +449,8 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
         <div class="fg">
           <label class="fl">Phương pháp kê khai</label>
           <select class="fi" id="cfgMethod">
-            <option value="monthly">Kê khai theo tháng (hạn ngày 20)</option>
-            <option value="quarterly">Kê khai theo quý (hạn ngày 30)</option>
+            <option value="new">HKD mới thành lập trong năm (kê khai 2 lần: 31/7 và 31/1)</option>
+            <option value="old">HKD đã hoạt động từ năm trước (kê khai 1 lần: 31/1)</option>
           </select>
         </div>
         <button class="btn btn-r" onclick="saveCfg()">💾 Lưu thông tin</button>
@@ -441,6 +512,15 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 </div><!-- end #app -->
 
+<!-- PRINT OVERLAY -->
+<div id="printOverlay">
+  <div id="printBar">
+    <button class="pb-print" onclick="window.print()">🖨️ In ngay</button>
+    <button class="pb-close" onclick="closePrint()">✕ Đóng</button>
+  </div>
+  <div id="printContent"></div>
+</div>
+
 <!-- FAB (outside #app so position:fixed works correctly) -->
 <button id="fab" onclick="openAdd()">＋</button>
 
@@ -468,7 +548,7 @@ select.fi { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 // ── STATE ──
 const S = {
-  cfg: { name:'', addr:'', tax:'', loc:'', method:'monthly' },
+  cfg: { name:'', addr:'', tax:'', loc:'', method:'old' },
   entries: [],
   period: null,
   editId: null
@@ -659,10 +739,8 @@ function updateHeader() {
 function fillSelects() {
   const periods = allPeriods();
   const opts = periods.map(p => '<option value="' + p + '">' + ymLabel(p) + '</option>').join('');
-  ['selPrint','selWord'].forEach(id => {
-    document.getElementById(id).innerHTML = opts;
-    if(S.period) document.getElementById(id).value = S.period;
-  });
+  const sp = document.getElementById('selPrint');
+  if(sp) { sp.innerHTML = opts; if(S.period) sp.value = S.period; }
 }
 
 // ── MODAL ACTIONS ──
@@ -719,7 +797,7 @@ function fillCfgForm() {
   document.getElementById('cfgAddr').value = S.cfg.addr || '';
   document.getElementById('cfgTax').value  = S.cfg.tax  || '';
   document.getElementById('cfgLoc').value  = S.cfg.loc  || '';
-  document.getElementById('cfgMethod').value = S.cfg.method || 'monthly';
+  document.getElementById('cfgMethod').value = S.cfg.method || 'old';
 }
 async function saveCfg() {
   S.cfg = {
@@ -727,7 +805,7 @@ async function saveCfg() {
     addr:   document.getElementById('cfgAddr').value.trim(),
     tax:    document.getElementById('cfgTax').value.trim(),
     loc:    document.getElementById('cfgLoc').value.trim(),
-    method: document.getElementById('cfgMethod').value,
+    method: document.getElementById('cfgMethod').value, // 'new' hoặc 'old'
   };
   persist(); updateHeader(); toast('✅ Đã lưu thông tin!');
 }
@@ -743,56 +821,76 @@ function exportJSON() {
 
 // ── TAX SCHEDULE ──
 function buildTaxMonthSel() {
-  const now = new Date();
-  const opts = [];
-  for(let i = 3; i >= -11; i--) {
-    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-    const p = ym(d);
-    opts.push('<option value="' + p + '">' + ymLabel(p) + '</option>');
-  }
-  document.getElementById('taxMonthSel').innerHTML = opts.join('');
-  document.getElementById('taxMonthSel').value = ym(now);
+  // Nhóm 1 HKD: không cần chọn tháng, deadline cố định 31/1 và 31/7
 }
 
 function renderTax() {
-  const method = S.cfg.method || 'monthly';
-  const lbl = method === 'monthly'
-    ? 'Kê khai hàng tháng – hạn trước ngày 20 tháng kế tiếp'
-    : 'Kê khai hàng quý – hạn trước ngày 30 tháng sau quý';
-  document.getElementById('taxMethodLbl').textContent = lbl;
-
-  const selVal = document.getElementById('taxMonthSel').value || ym(new Date());
-  const parts = selVal.split('-');
-  const y = parseInt(parts[0]), m = parseInt(parts[1]);
+  const isNew = (S.cfg.method || 'old') === 'new';
   const today = new Date(); today.setHours(0,0,0,0);
+  const y = today.getFullYear();
+
+  // Cập nhật label & nhom-card & remind strip
+  const lbl = document.getElementById('taxMethodLbl');
+  const kk  = document.getElementById('nhomKeKhai');
+  const r7  = document.getElementById('remind31_7');
+  if(isNew) {
+    if(lbl) lbl.textContent = 'HKD mới thành lập – kê khai 2 lần/năm: 31/7 và 31/1 năm sau';
+    if(kk)  kk.innerHTML   = '2 lần/năm<br>31/7 & 31/1 năm sau';
+    if(r7)  r7.style.display = 'flex';
+  } else {
+    if(lbl) lbl.textContent = 'HKD đã hoạt động từ trước – kê khai 1 lần/năm, hạn 31/1 năm sau';
+    if(kk)  kk.innerHTML   = '1 lần/năm<br>Hạn: 31/1 năm sau';
+    if(r7)  r7.style.display = 'none';
+  }
+
   const deadlines = [];
 
-  if(method === 'monthly') {
-    const dl = new Date(y, m, 20);
-    const days = Math.ceil((dl - today) / 86400000);
-    deadlines.push({ date:dl, days, title:'Nộp tờ khai & thuế ' + ymLabel(selVal), desc:'Mẫu 01/CNKD – Kê khai và nộp thuế GTGT (1%), TNCN (0.5%) theo NĐ 68/2025. Phạt chậm nộp 0.03%/ngày.', type: days < 0 ? 'urgent' : days <= 7 ? 'urgent' : days <= 15 ? 'warning' : 'ok' });
+  if(isNew) {
+    // HKD MỚI: 2 mốc — 31/7 và 31/1 năm sau
+    const dl1 = new Date(y, 6, 31);
+    const days1 = Math.ceil((dl1 - today) / 86400000);
+    deadlines.push({
+      date: dl1, days: days1,
+      title: 'Kỳ 1 – Khai DT 6 tháng đầu năm ' + y,
+      desc: 'Khai doanh thu 01/01–30/06/' + y + '. HKD mới thành lập trong năm phải nộp kỳ này trước 31/7/' + y + '.',
+      type: days1 < 0 ? 'urgent' : days1 <= 14 ? 'urgent' : days1 <= 45 ? 'warning' : 'ok'
+    });
+    const dl2 = new Date(y + 1, 0, 31);
+    const days2 = Math.ceil((dl2 - today) / 86400000);
+    deadlines.push({
+      date: dl2, days: days2,
+      title: 'Kỳ 2 – Khai DT cả năm ' + y,
+      desc: 'Khai doanh thu 01/01–31/12/' + y + '. Xác nhận tổng DT ≤ 1 tỷ để tiếp tục miễn thuế. Hạn: 31/1/' + (y+1) + '.',
+      type: days2 < 0 ? 'urgent' : days2 <= 14 ? 'urgent' : days2 <= 45 ? 'warning' : 'ok'
+    });
   } else {
-    const q = Math.ceil(m / 3);
-    const dl = new Date(y, q*3, 30);
+    // HKD CŨ: 1 mốc — 31/1 năm sau
+    const dl = new Date(y + 1, 0, 31);
     const days = Math.ceil((dl - today) / 86400000);
-    deadlines.push({ date:dl, days, title:'Nộp tờ khai & thuế Quý ' + q + '/' + y, desc:'Mẫu 01/CNKD – Kê khai doanh thu và nộp thuế GTGT + TNCN Quý ' + q + '/' + y + '. Theo NĐ 68/2025.', type: days < 0 ? 'urgent' : days <= 10 ? 'urgent' : days <= 20 ? 'warning' : 'ok' });
+    deadlines.push({
+      date: dl, days: days,
+      title: 'Kê khai DT cả năm ' + y,
+      desc: 'Khai tổng doanh thu 01/01–31/12/' + y + '. HKD đang hoạt động chỉ cần 1 lần kê khai mỗi năm. Hạn: 31/1/' + (y+1) + '.',
+      type: days < 0 ? 'urgent' : days <= 14 ? 'urgent' : days <= 45 ? 'warning' : 'ok'
+    });
+    // Nhắc nếu gần hạn khai năm trước
+    const dlPrev = new Date(y, 0, 31);
+    const daysPrev = Math.ceil((dlPrev - today) / 86400000);
+    if(daysPrev >= -60) {
+      deadlines.push({
+        date: dlPrev, days: daysPrev,
+        title: 'Kê khai DT cả năm ' + (y-1) + ' — Kiểm tra',
+        desc: 'Nếu chưa nộp tờ khai năm ' + (y-1) + ', cần bổ sung trước khi bị xử phạt. Liên hệ cơ quan thuế để được hướng dẫn.',
+        type: daysPrev < 0 ? 'urgent' : 'warning'
+      });
+    }
   }
-
-  // Quyết toán năm nếu gần cuối năm
-  if(m >= 10 || m <= 3) {
-    const qtyear = m >= 10 ? y : y - 1;
-    const dlQT = new Date(qtyear + 1, 2, 31);
-    const daysQT = Math.ceil((dlQT - today) / 86400000);
-    deadlines.push({ date:dlQT, days:daysQT, title:'Quyết toán thuế năm ' + qtyear, desc:'Nộp quyết toán thuế TNCN năm ' + qtyear + ' trước ngày 31/3/' + (qtyear+1) + '. Xác định thu nhập chịu thuế cả năm.', type:'info' });
-  }
-
-  deadlines.sort((a,b) => a.date - b.date);
 
   const container = document.getElementById('taxDeadlines');
   container.innerHTML = '';
   deadlines.forEach(item => {
     const cls = item.type;
-    const badgeTxt = item.days < 0
+    const badge = item.days < 0
       ? '⚠️ Đã quá hạn ' + Math.abs(item.days) + ' ngày'
       : item.days === 0 ? '🔴 HÔM NAY!'
       : '📅 Còn ' + item.days + ' ngày';
@@ -802,54 +900,62 @@ function renderTax() {
       '<div class="dl-d ' + cls + '"><div class="dl-day">' + item.date.getDate() + '</div>' +
       '<div class="dl-mon">' + String(item.date.getMonth()+1).padStart(2,'0') + '/' + item.date.getFullYear() + '</div></div>' +
       '<div class="dl-body"><h4>' + item.title + '</h4><p>' + item.desc + '</p>' +
-      '<span class="dl-bdg ' + cls + '">' + badgeTxt + '</span></div>';
+      '<span class="dl-bdg ' + cls + '">' + badge + '</span></div>';
     container.appendChild(div);
   });
 }
-
-// ── NOTIFICATION ──
 function genNotif() {
-  const method = S.cfg.method || 'monthly';
-  const selVal = document.getElementById('taxMonthSel').value || ym(new Date());
-  const parts = selVal.split('-');
-  const y = parseInt(parts[0]), m = parseInt(parts[1]);
+  const isNew = (S.cfg.method || 'old') === 'new';
   const today = new Date();
+  const y = today.getFullYear();
+  const mo = today.getMonth() + 1;
+  const cfg = S.cfg;
 
-  let deadline, period, mau;
-  if(method === 'monthly') {
-    deadline = new Date(y, m, 20);
-    period = ymLabel(selVal);
-    mau = '01/CNKD';
+  let lines = '';
+  if(isNew) {
+    const dl1 = new Date(y, 6, 31);
+    const dl2 = new Date(y+1, 0, 31);
+    const d1 = Math.ceil((dl1-today)/86400000);
+    const d2 = Math.ceil((dl2-today)/86400000);
+    lines =
+      '📋 HKD MỚI THÀNH LẬP – 2 MỐC KÊ KHAI:\n' +
+      '   Kỳ 1: 31/7/' + y + ' – Khai DT 01/01–30/06/' + y +
+      (d1 >= 0 ? ' (còn ' + d1 + ' ngày)' : ' (⚠️ quá hạn!)') + '\n' +
+      '   Kỳ 2: 31/1/' + (y+1) + ' – Khai DT cả năm ' + y +
+      (d2 >= 0 ? ' (còn ' + d2 + ' ngày)' : ' (⚠️ quá hạn!)') + '\n';
   } else {
-    const q = Math.ceil(m/3);
-    deadline = new Date(y, q*3, 30);
-    period = 'Quý ' + q + '/' + y;
-    mau = '01/CNKD';
+    const dl = new Date(y+1, 0, 31);
+    const d = Math.ceil((dl-today)/86400000);
+    lines =
+      '📋 HKD ĐÃ HOẠT ĐỘNG – 1 MỐC KÊ KHAI:\n' +
+      '   Hạn: 31/1/' + (y+1) + ' – Khai DT cả năm ' + y +
+      (d >= 0 ? ' (còn ' + d + ' ngày)' : ' (⚠️ quá hạn!)') + '\n';
   }
-  const daysLeft = Math.ceil((deadline - today) / 86400000);
-  const entries = filtered(selVal);
-  const total = entries.reduce((s,e) => s + +e.amt, 0);
-  const c = S.cfg;
+
+  const allEntries = S.entries.filter(e => new Date(e.date).getFullYear() === y);
+  const totalYear = allEntries.reduce((s,e) => s + +e.amt, 0);
 
   notifText =
-    '🔔 NHẮC NỘP THUẾ ' + period.toUpperCase() + '\n' +
+    '🔔 NHẮC KÊ KHAI DOANH THU – NHÓM 1 HKD\n' +
     '================================\n' +
-    (c.name ? c.name + '\n' : '') +
-    (c.tax ? 'MST: ' + c.tax + '\n' : '') +
+    (cfg.name ? cfg.name + '\n' : '') +
+    (cfg.tax  ? 'MST: ' + cfg.tax + '\n' : '') +
     '================================\n' +
-    '📋 Hạn nộp mẫu ' + mau + ':\n' +
-    '   ' + deadline.getDate() + '/' + String(deadline.getMonth()+1).padStart(2,'0') + '/' + deadline.getFullYear() +
-    (daysLeft >= 0 ? ' (còn ' + daysLeft + ' ngày)' : ' (⚠️ quá hạn!)') + '\n' +
-    (total > 0 ? 'Doanh thu ' + period + ': ' + fmt(total) + '\n' : '') +
+    lines +
+    (totalYear > 0 ? '   DT năm ' + y + ' đến nay: ' + fmt(totalYear) + '\n' : '') +
+    '================================\n' +
+    '✅ Nhóm 1 (DT ≤ 1 tỷ/năm):\n' +
+    '   • Miễn GTGT và TNCN\n' +
+    '   • Chỉ kê khai doanh thu\n' +
+    '   • Không bắt buộc hóa đơn\n' +
     '================================\n' +
     '📌 Các bước:\n' +
     '1. Kiểm tra sổ S1a-HKD đầy đủ\n' +
-    '2. Lập tờ khai mẫu ' + mau + '\n' +
+    '2. Lập tờ khai doanh thu HKD\n' +
     '3. Nộp qua eTax Mobile hoặc CQT\n' +
-    '4. Nộp tiền thuế đúng hạn\n' +
     '================================\n' +
-    '⚖️ Căn cứ: NĐ 68/2025/NĐ-CP, TT 18/TT-BTC\n' +
-    '   Phạt chậm nộp: 0.03%/ngày số thuế thiếu';
+    '⚖️ Căn cứ: NĐ 141/2026/NĐ-CP\n' +
+    '   TT 152/2025/TT-BTC (31/12/2025)';
 
   const box = document.getElementById('notifBox');
   box.style.display = 'block';
@@ -857,7 +963,6 @@ function genNotif() {
   document.getElementById('copyBtn').style.display = 'block';
   toast('✅ Đã tạo thông báo!');
 }
-
 async function copyNotif() {
   try {
     await navigator.clipboard.writeText(notifText);
@@ -873,105 +978,58 @@ async function copyNotif() {
   }
 }
 
-// ── PRINT ──
+// ── PRINT (overlay - iOS Safari safe) ──
 function doPrint() {
   const period = document.getElementById('selPrint').value;
-  const parts = period.split('-');
-  const year = parts[0], month = parts[1];
+  if(!period) { toast('⚠️ Vui lòng chọn tháng!'); return; }
+  const parts = period.split('-'), year = parts[0], month = parts[1];
   const entries = filtered(period);
   const total = entries.reduce((s,e) => s + +e.amt, 0);
-  const c = S.cfg;
-  let rows = entries.map(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    return '<tr><td class="cc">' + d.getDate() + '/' + (d.getMonth()+1) + '</td><td>' + esc(e.desc) + '</td><td class="cr">' + vnd(e.amt) + '</td></tr>';
-  }).join('');
-  const blanks = Math.max(0, 22 - entries.length);
-  rows += Array(blanks).fill('<tr><td class="cc">&nbsp;</td><td></td><td></td></tr>').join('');
-  const w = window.open('', '_blank');
-  w.document.write('<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><title>S1a-HKD T' + month + '/' + year + '</title>' +
-    '<style>@page{size:A4;margin:15mm 20mm 15mm 25mm}' +
-    '*{margin:0;padding:0;box-sizing:border-box}' +
-    'body{font-family:"Times New Roman",serif;font-size:12pt}' +
-    '.hdr{display:flex;justify-content:space-between;margin-bottom:16pt}' +
-    '.hdr-l p{font-size:11pt;line-height:1.9}' +
-    '.hdr-r{text-align:right;font-size:10pt;line-height:1.7}' +
-    '.mau{color:#C8102E;font-weight:bold;font-size:11pt}' +
-    '.tit{text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;margin:8pt 0 4pt}' +
-    '.sub{text-align:center;font-size:11pt;margin:2pt 0}' +
-    'table{width:100%;border-collapse:collapse;margin-top:10pt}' +
-    'th,td{border:1px solid black;padding:4pt 5pt;font-size:11pt}' +
-    'th{text-align:center;font-weight:bold}' +
-    '.cc{text-align:center}.cr{text-align:right}' +
-    '.tot{font-weight:bold}' +
-    '.foot{text-align:right;margin-top:18pt;font-size:11pt;line-height:2}' +
-    '.nb{display:none}@media screen{.nb{display:block;text-align:center;padding:10px;background:#f0fdf4;margin-bottom:14px}}' +
-    '</style></head><body>' +
-    '<div class="nb"><button onclick="window.print()" style="padding:10px 24px;background:#16a34a;color:#fff;border:none;border-radius:8px;font-size:15px;cursor:pointer;font-weight:700">🖨️ In ngay</button>&nbsp;<button onclick="window.close()" style="padding:10px 20px;background:#6b7280;color:#fff;border:none;border-radius:8px;font-size:15px;cursor:pointer">✕ Đóng</button></div>' +
-    '<div class="hdr"><div class="hdr-l"><p><strong>HỘ, CÁ NHÂN KINH DOANH:</strong> ' + (c.name||'...................................') + '</p>' +
-    '<p><strong>Địa chỉ:</strong> ' + (c.addr||'...............................................') + '</p>' +
-    '<p><strong>Mã số thuế:</strong> ' + (c.tax||'..............................................') + '</p></div>' +
-    '<div class="hdr-r"><div class="mau">Mẫu số S1a-HKD</div>' +
-    '<div>(Theo Thông tư số 133/2016/TT-BTC</div>' +
-    '<div>ngày 26/8/2016 của Bộ Tài chính)</div></div></div>' +
+  const cfg = S.cfg;
+
+  // Nhóm theo ngày để gộp nhiều dòng cùng ngày
+  const rows = entries.length === 0
+    ? '<tr><td colspan="3" style="text-align:center;padding:12pt;color:#999;font-style:italic">Chưa có dữ liệu trong tháng này</td></tr>'
+    : entries.map(e => {
+        const d = new Date(e.date + 'T00:00:00');
+        return '<tr><td class="cc">' + d.getDate() + '/' + (d.getMonth()+1) + '</td>' +
+               '<td>' + esc(e.desc || '') + '</td>' +
+               '<td class="cr">' + vnd(e.amt) + '</td></tr>';
+      }).join('');
+
+  document.getElementById('printContent').innerHTML =
+    '<div class="ph">' +
+      '<div class="pl">' +
+        '<p><strong>HỘ, CÁ NHÂN KINH DOANH:</strong> ' + esc(cfg.name||'...............................') + '</p>' +
+        '<p><strong>Địa chỉ:</strong> ' + esc(cfg.addr||'...................................') + '</p>' +
+        '<p><strong>Mã số thuế:</strong> ' + esc(cfg.tax||'..................................') + '</p>' +
+      '</div>' +
+      '<div class="pr"><div class="mau">Mẫu số S1a-HKD</div>' +
+        '<div style="font-size:9pt;font-style:italic">(Kèm theo TT 152/2025/TT-BTC</div>' +
+        '<div style="font-size:9pt;font-style:italic">ngày 31/12/2025 Bộ trưởng BTC)</div></div>' +
+    '</div>' +
     '<div class="tit">Sổ doanh thu bán hàng hóa, dịch vụ</div>' +
-    '<p class="sub">Địa điểm kinh doanh: ' + (c.loc||'.......................................') + '</p>' +
+    '<p class="sub">Địa điểm kinh doanh: ' + esc(cfg.loc||'..........................') + '</p>' +
     '<p class="sub"><strong>Kỳ kê khai: Tháng ' + parseInt(month) + '/' + year + '</strong></p>' +
-    '<table><thead><tr><th style="width:13%">Ngày tháng<br><em>A</em></th><th>Diễn giải</th><th style="width:20%">Số tiền<br><em>1</em></th></tr></thead>' +
-    '<tbody>' + rows +
-    '<tr class="tot"><td colspan="2" class="cr">Tổng cộng</td><td class="cr">' + vnd(total) + '</td></tr></tbody></table>' +
-    '<div class="foot"><p>Ngày ......... tháng ......... năm .........</p>' +
-    '<p><strong>NGƯỜI ĐẠI DIỆN HỘ KINH DOANH/CÁ NHÂN KINH DOANH</strong></p>' +
-    '<p><em>(Ký, ghi rõ họ tên, đóng dấu (nếu có))</em></p>' +
-    '<p style="margin-top:60pt">&nbsp;</p></div>' +
-    '</body></html>');
-  w.document.close();
+    '<p class="dvt">Đơn vị tính: đồng</p>' +
+    '<table><thead><tr>' +
+      '<th style="width:13%">Ngày tháng<br><em>A</em></th>' +
+      '<th>Diễn giải<br><em>B</em></th>' +
+      '<th style="width:20%">Số tiền<br><em>1</em></th>' +
+    '</tr></thead><tbody>' + rows +
+    '<tr class="tot"><td colspan="2" class="cr">Tổng cộng</td><td class="cr">' + vnd(total) + '</td></tr>' +
+    '</tbody></table>' +
+    '<div class="foot">' +
+      '<p>Ngày ......... tháng ......... năm .........</p>' +
+      '<p><strong>NGƯỜI ĐẠI DIỆN HỘ KINH DOANH/CÁ NHÂN KINH DOANH</strong></p>' +
+      '<p><em>(Ký, ghi rõ họ tên, đóng dấu (nếu có))</em></p>' +
+      '<p style="margin-top:56pt">&nbsp;</p></div>';
+  document.getElementById('printOverlay').classList.add('on');
+}
+function closePrint() {
+  document.getElementById('printOverlay').classList.remove('on');
 }
 
-// ── WORD ──
-function doWord() {
-  const period = document.getElementById('selWord').value;
-  const parts = period.split('-');
-  const year = parts[0], month = parts[1];
-  const entries = filtered(period);
-  const total = entries.reduce((s,e) => s + +e.amt, 0);
-  const c = S.cfg;
-  let rows = entries.map(e => {
-    const d = new Date(e.date + 'T00:00:00');
-    return '<tr><td style="text-align:center;border:1pt solid black;padding:3pt 5pt">' + d.getDate() + '/' + (d.getMonth()+1) + '</td>' +
-           '<td style="border:1pt solid black;padding:3pt 5pt">' + esc(e.desc) + '</td>' +
-           '<td style="text-align:right;border:1pt solid black;padding:3pt 5pt">' + vnd(e.amt) + '</td></tr>';
-  }).join('');
-  const blanks = Math.max(0, 22 - entries.length);
-  rows += Array(blanks).fill('<tr style="height:17pt"><td style="border:1pt solid black">&nbsp;</td><td style="border:1pt solid black"></td><td style="border:1pt solid black"></td></tr>').join('');
-  const html = '<!--[if gte mso 9]><xml><o:OfficeDocumentSettings><o:RelyOnVML/><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->' +
-    '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">' +
-    '<head><meta charset="UTF-8"><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]-->' +
-    '<style>@page{size:21cm 29.7cm;margin:1.5cm 2cm 1.5cm 2.5cm}body{font-family:"Times New Roman",serif;font-size:12pt}p{margin:0}table{border-collapse:collapse;width:100%}</style>' +
-    '</head><body>' +
-    '<table style="width:100%;border:none;margin-bottom:12pt"><tr>' +
-    '<td style="width:58%;border:none;vertical-align:top"><p style="font-size:11pt;line-height:1.9"><b>HỘ, CÁ NHÂN KINH DOANH:</b> ' + (c.name||'........................') + '</p>' +
-    '<p style="font-size:11pt;line-height:1.9"><b>Địa chỉ:</b> ' + (c.addr||'..................................') + '</p>' +
-    '<p style="font-size:11pt;line-height:1.9"><b>Mã số thuế:</b> ' + (c.tax||'................................') + '</p></td>' +
-    '<td style="width:42%;border:none;text-align:right;vertical-align:top">' +
-    '<p style="color:#C8102E;font-weight:bold;font-size:11pt">Mẫu số S1a-HKD</p>' +
-    '<p style="font-size:9pt;font-style:italic">(Theo TT 133/2016/TT-BTC ngày 26/8/2016)</p></td></tr></table>' +
-    '<p style="text-align:center;font-size:14pt;font-weight:bold;text-transform:uppercase;margin:8pt 0 4pt">Sổ doanh thu bán hàng hóa, dịch vụ</p>' +
-    '<p style="text-align:center;font-size:11pt;margin:2pt 0">Địa điểm kinh doanh: ' + (c.loc||'............................') + '</p>' +
-    '<p style="text-align:center;font-size:11pt;font-weight:bold;margin:2pt 0 10pt">Kỳ kê khai: Tháng ' + parseInt(month) + '/' + year + '</p>' +
-    '<table><thead><tr>' +
-    '<th style="width:13%;border:1pt solid black;text-align:center;padding:4pt 5pt">Ngày tháng<br><i>A</i></th>' +
-    '<th style="border:1pt solid black;text-align:center;padding:4pt 5pt">Diễn giải</th>' +
-    '<th style="width:20%;border:1pt solid black;text-align:center;padding:4pt 5pt">Số tiền<br><i>1</i></th></tr></thead>' +
-    '<tbody>' + rows +
-    '<tr><td colspan="2" style="text-align:right;font-weight:bold;border:1pt solid black;padding:4pt 5pt">Tổng cộng</td>' +
-    '<td style="text-align:right;font-weight:bold;border:1pt solid black;padding:4pt 5pt">' + vnd(total) + '</td></tr></tbody></table>' +
-    '<p style="text-align:right;margin-top:16pt">Ngày ......... tháng ......... năm .........</p>' +
-    '<p style="text-align:right;font-weight:bold;margin-top:4pt">NGƯỜI ĐẠI DIỆN HỘ KINH DOANH/CÁ NHÂN KINH DOANH</p>' +
-    '<p style="text-align:right;font-style:italic">(Ký, ghi rõ họ tên, đóng dấu (nếu có))</p>' +
-    '</body></html>';
-  dl(new Blob(['\ufeff' + html], {type:'application/msword'}), 'S1a-HKD_Thang' + month + '_' + year + '.doc');
-  toast('✅ Đã tải file Word!');
-}
 
 // ── INIT ──
 function init() {
